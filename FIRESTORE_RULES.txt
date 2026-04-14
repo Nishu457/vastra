@@ -1,0 +1,179 @@
+/* ===================================================================
+   FIRESTORE SECURITY RULES
+   VASTRA - Luxury Saree eCommerce
+   Copy these rules into Firebase Console > Firestore > Rules tab
+   =================================================================== */
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===================================================================
+    // GENERAL RULES
+    // ===================================================================
+    
+    // Allow authenticated users to read their own user data
+    match /users/{uid} {
+      allow read, write: if request.auth.uid == uid;
+    }
+    
+    // ===================================================================
+    // PRODUCTS COLLECTION (Public Read, Admin Write)
+    // ===================================================================
+    
+    match /products/{productId} {
+      // Anyone can read products
+      allow read: if true;
+      
+      // Only admin can create, update, delete products
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ===================================================================
+    // CART COLLECTION (User Specific)
+    // ===================================================================
+    
+    match /cart/{docId} {
+      // Anyone can read and write their own cart
+      allow read, write: if true;
+      
+      // Validate cart structure
+      allow write: if request.resource.data.keys().hasAll(['items', 'updatedAt']);
+    }
+    
+    // ===================================================================
+    // ORDERS COLLECTION (User Specific)
+    // ===================================================================
+    
+    match /orders/{orderId} {
+      // Users can read and create orders
+      allow read, create: if true;
+      
+      // Users can update their own orders (limited fields)
+      allow update: if isValidOrderUpdate();
+      
+      // Only admin can delete orders
+      allow delete: if isAdmin();
+    }
+    
+    // ===================================================================
+    // ADMIN COLLECTION (Admin Only)
+    // ===================================================================
+    
+    match /admin/{document=**} {
+      // Only admin can access admin collection
+      allow read, write: if isAdmin();
+    }
+    
+    // ===================================================================
+    // HELPER FUNCTIONS
+    // ===================================================================
+    
+    /**
+     * Check if user is admin
+     * In production, store admin UIDs in a separate collection or Firestore document
+     * For now, we'll check against a known list
+     */
+    function isAdmin() {
+      return request.auth.uid in [
+        'admin-uid-1',  // Replace with actual admin UIDs
+        'admin-uid-2'
+      ] || 
+      request.auth.uid == get(/databases/$(database)/documents/admin/superadmin).data.uid;
+    }
+    
+    /**
+     * Validate order updates
+     * Users can only update specific fields
+     */
+    function isValidOrderUpdate() {
+      let allowedFields = ['status', 'trackingNumber', 'notes'];
+      let updatedFields = request.resource.data.diff(resource.data).affectedKeys();
+      
+      return updatedFields.hasOnly(allowedFields);
+    }
+    
+    /**
+     * Check if document belongs to current user
+     */
+    function belongsToUser(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    /**
+     * Check if user is authenticated
+     */
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    /**
+     * Rate limiting: Allow max 10 writes per minute per document
+     */
+    function isRateLimited(maxWrites, period) {
+      // This is a simplified check; consider using Cloud Functions for production
+      return request.time < resource.data.lastWrite.toMillis() + period * 1000 ||
+             resource.data.writeCount < maxWrites;
+    }
+  }
+}
+
+/* ===================================================================
+   IMPORTANT NOTES FOR SECURITY
+   =================================================================== */
+
+/*
+1. ADMIN VERIFICATION:
+   - Replace 'admin-uid-1' and 'admin-uid-2' with your actual Firebase Auth UIDs
+   - To get your UID, sign in via Firebase Console and check Authentication section
+   - Alternatively, query the admin collection to check admin status
+   
+2. PRODUCTION DEPLOYMENT:
+   - Enable Email/Password Authentication in Firebase Console
+   - Set up Cloud Functions to handle admin role assignments
+   - Consider using Firebase Custom Claims for role-based access
+   
+3. TESTING RULES:
+   - Use Firestore Simulator in Firebase Console
+   - Test rules with authenticated and unauthenticated users
+   - Test with different user roles
+   
+4. SENSITIVE DATA:
+   - Don't expose admin logic in client-side code
+   - Use Cloud Functions for sensitive operations
+   - Validate all inputs server-side
+   
+5. BACKUPS:
+   - Enable automated backups in Firebase Console
+   - Regularly export important collections
+   - Monitor Firestore usage and costs
+   
+6. CORS PERMISSIONS:
+   - If using Cloud Storage for images, configure CORS
+   - Allow safe cross-origin requests for product images
+   
+7. RATE LIMITING:
+   - Implement rate limiting for large operations
+   - Monitor traffic patterns and adjust limits
+   - Use Cloud Functions for custom rate limiting
+*/
+
+/* ===================================================================
+   DEVELOPMENT/TEMPORARY RULE (Use for Testing Only)
+   =================================================================== */
+
+/*
+For TESTING/DEVELOPMENT ONLY - Replace above rules with this temporarily:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
+⚠️ WARNING: Never use the above rule in production!
+It allows anyone to read and write all data.
+*/

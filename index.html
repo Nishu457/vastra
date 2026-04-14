@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VASTRA - Luxury Saree eCommerce</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header class="header">
+        <div class="container header-wrapper">
+            <div class="logo">
+                <h1>VASTRA</h1>
+            </div>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="#shop" class="nav-link">Shop</a>
+                <a href="#collections" class="nav-link">Collections</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="search-toggle" id="searchToggle" aria-label="Search">
+                    <span>🔍</span>
+                </button>
+                <button class="cart-toggle" id="cartToggle" aria-label="Shopping Cart">
+                    <span>🛍️</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="search-bar" id="searchBar">
+            <div class="container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Search by saree type, color, or pattern..."
+                    aria-label="Search products"
+                >
+                <button class="search-clear" id="searchClear">✕</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="hero-title">Timeless Elegance in Every Thread</h2>
+            <p class="hero-subtitle">Handcrafted luxury sarees for the discerning woman</p>
+            <button class="btn btn-hero" id="exploreBtn">Explore Collection</button>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- FILTER SECTION -->
+        <section class="filters-section" id="filters">
+            <div class="container">
+                <div class="filters-wrapper">
+                    <!-- FILTER TOGGLE (Mobile) -->
+                    <button class="filter-toggle" id="filterToggle">
+                        ⚙️ Filters
+                    </button>
+
+                    <!-- FILTER PANEL -->
+                    <aside class="filter-panel" id="filterPanel">
+                        <div class="filter-header">
+                            <h3>Filters</h3>
+                            <button class="filter-close" id="filterClose">✕</button>
+                        </div>
+
+                        <!-- Price Filter -->
+                        <div class="filter-group">
+                            <h4>Price Range</h4>
+                            <div class="price-inputs">
+                                <input 
+                                    type="number" 
+                                    id="priceMin" 
+                                    placeholder="Min" 
+                                    value="0"
+                                    class="price-input"
+                                >
+                                <span>-</span>
+                                <input 
+                                    type="number" 
+                                    id="priceMax" 
+                                    placeholder="Max" 
+                                    value="50000"
+                                    class="price-input"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Saree Type Filter -->
+                        <div class="filter-group">
+                            <h4>Saree Type</h4>
+                            <div class="filter-checkboxes" id="typeFilters">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Silk" class="filter-checkbox">
+                                    <span>Silk</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Cotton" class="filter-checkbox">
+                                    <span>Cotton</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Chiffon" class="filter-checkbox">
+                                    <span>Chiffon</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Tussar Silk" class="filter-checkbox">
+                                    <span>Tussar Silk</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Cotton Blend" class="filter-checkbox">
+                                    <span>Cotton Blend</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Color Filter -->
+                        <div class="filter-group">
+                            <h4>Color</h4>
+                            <div class="color-swatches" id="colorFilters">
+                                <button class="color-swatch" data-color="Red" style="background-color: #C41E3A;" title="Red"></button>
+                                <button class="color-swatch" data-color="Blue" style="background-color: #0066CC;" title="Blue"></button>
+                                <button class="color-swatch" data-color="Gold" style="background-color: #D4AF37;" title="Gold"></button>
+                                <button class="color-swatch" data-color="Purple" style="background-color: #663399;" title="Purple"></button>
+                                <button class="color-swatch" data-color="Teal" style="background-color: #008080;" title="Teal"></button>
+                                <button class="color-swatch" data-color="Green" style="background-color: #228B22;" title="Green"></button>
+                                <button class="color-swatch" data-color="Cream" style="background-color: #FFFDD0;" title="Cream"></button>
+                                <button class="color-swatch" data-color="Burgundy" style="background-color: #800020;" title="Burgundy"></button>
+                            </div>
+                        </div>
+
+                        <!-- Rating Filter -->
+                        <div class="filter-group">
+                            <h4>Rating</h4>
+                            <div class="filter-checkboxes" id="ratingFilters">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="4" class="filter-rating">
+                                    <span>4+ Stars</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="3" class="filter-rating">
+                                    <span>3+ Stars</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Availability Filter -->
+                        <div class="filter-group">
+                            <h4>Availability</h4>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="inStockFilter">
+                                <span>In Stock Only</span>
+                            </label>
+                        </div>
+
+                        <!-- Active Filters -->
+                        <div class="active-filters" id="activeFilters">
+                            <!-- Dynamic filter tags will be added here -->
+                        </div>
+
+                        <!-- Clear Filters -->
+                        <button class="btn btn-clear-filters" id="clearFilters">Clear All Filters</button>
+                    </aside>
+
+                    <!-- PRODUCTS GRID -->
+                    <section class="products-section">
+                        <div class="section-header">
+                            <h2>Our Collection</h2>
+                            <span class="product-count" id="productCount">0 products</span>
+                        </div>
+
+                        <div class="products-grid" id="productsGrid">
+                            <!-- Products will be dynamically inserted here -->
+                        </div>
+
+                        <div class="no-results" id="noResults" style="display: none;">
+                            <p>No products found matching your filters.</p>
+                            <button class="btn btn-secondary" id="resetFilters">Clear Filters</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- SHOPPING CART SIDEBAR -->
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" id="cartClose">✕</button>
+        </div>
+
+        <div class="cart-content" id="cartContent">
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be inserted here -->
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (18%):</span>
+                    <span id="tax">₹0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="total">₹0</span>
+                </div>
+            </div>
+
+            <button class="btn btn-checkout" id="checkoutBtn">Order via WhatsApp</button>
+            <button class="btn btn-secondary" id="continueShopping">Continue Shopping</button>
+        </div>
+
+        <div class="cart-empty" id="cartEmpty">
+            <p>Your cart is empty</p>
+            <p class="text-muted">Add some beautiful sarees to get started!</p>
+        </div>
+    </aside>
+
+    <!-- CART OVERLAY -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- ADMIN PANEL -->
+    <section class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2>Admin Panel</h2>
+            <button class="admin-close" id="adminClose">✕</button>
+        </div>
+
+        <div class="admin-content">
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="add-product">Add Product</button>
+                <button class="admin-tab" data-tab="manage-products">Manage Products</button>
+            </div>
+
+            <!-- ADD PRODUCT FORM -->
+            <div class="admin-tab-content active" id="tab-add-product">
+                <form id="productForm" class="product-form">
+                    <div class="form-group">
+                        <label for="productName">Product Name *</label>
+                        <input type="text" id="productName" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productPrice">Price (₹) *</label>
+                            <input type="number" id="productPrice" required min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productType">Saree Type *</label>
+                            <select id="productType" required>
+                                <option value="">Select Type</option>
+                                <option value="Silk">Silk</option>
+                                <option value="Cotton">Cotton</option>
+                                <option value="Chiffon">Chiffon</option>
+                                <option value="Tussar Silk">Tussar Silk</option>
+                                <option value="Cotton Blend">Cotton Blend</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productDescription">Description</label>
+                        <textarea id="productDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product Images (3 URLs) *</label>
+                        <input type="url" id="productImage1" placeholder="Image 1 URL" required>
+                        <input type="url" id="productImage2" placeholder="Image 2 URL" required>
+                        <input type="url" id="productImage3" placeholder="Image 3 URL" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productQuantity">Stock Quantity *</label>
+                        <input type="number" id="productQuantity" required min="0">
+                    </div>
+
+                    <button type="submit" class="btn btn-add">Add Product</button>
+                    <div id="formMessage" class="form-message"></div>
+                </form>
+            </div>
+
+            <!-- MANAGE PRODUCTS -->
+            <div class="admin-tab-content" id="tab-manage-products">
+                <div class="admin-products-list" id="adminProductsList">
+                    <!-- Products list will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN BUTTON (Hidden, accessible via keyboard shortcut or URL) -->
+    <button class="admin-button" id="adminButton" title="Admin Panel">⚙️</button>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#shop">Shop</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">👍</a>
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-small">Subscribe</button>
+                    </form>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📍 123 Fashion Street, New Delhi</p>
+                    <p>📧 info@vastra.com</p>
+                    <p>📱 +91 789-301-6792</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 VASTRA. All rights reserved. | Luxury Sarees for the Discerning Woman</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FIREBASE SDK (CDN) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"></script>
+
+    <!-- FIREBASE CONFIG & INITIALIZATION -->
+    <script src="firebase-config.js"></script>
+
+    <!-- MAIN APPLICATION SCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>
